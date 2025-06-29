@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Border Radius Demo</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .demo-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .shape-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+        }
+        
+        .demo-shape {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .controls {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 25px;
+        }
+        
+        .control-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #fff;
+        }
+        
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            outline: none;
+            background: rgba(255, 255, 255, 0.3);
+            margin-bottom: 10px;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #4ecdc4;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        }
+        
+        .value-display {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .css-output {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 15px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            white-space: pre-wrap;
+            margin-top: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .explanation {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+            line-height: 1.6;
+        }
+        
+        .corner-labels {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 20px auto;
+        }
+        
+        .corner-label {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .top-left { top: -10px; left: -10px; }
+        .top-right { top: -10px; right: -10px; }
+        .bottom-right { bottom: -10px; right: -10px; }
+        .bottom-left { bottom: -10px; left: -10px; }
+        
+        .preset-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        .preset-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 12px;
+        }
+        
+        .preset-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Border Radius Interactive Demo</h1>
+        
+        <div class="demo-section">
+            <div class="shape-container">
+                <div>
+                    <div class="demo-shape" id="demoShape"></div>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <h3>🎛️ Điều khiển Border Radius</h3>
+                
+                <div class="control-group">
+                    <label>Top-Left Horizontal (%)</label>
+                    <input type="range" id="tlH" min="0" max="100" value="0">
+                    <div class="value-display" id="tlH-val">0%</div>
+                </div>
+                
+                <div class="control-group">
+                    <label>Top-Right Horizontal (%)</label>
+                    <input type="range" id="trH" min="0" max="100" value="100">
+                    <div class="value-display" id="trH-val">100%</div>
+                </div>
+                
+                <div class="control-group">
+                    <label>Bottom-Right Horizontal (%)</label>
+                    <input type="range" id="brH" min="0" max="100" value="38">
+                    <div class="value-display" id="brH-val">38%</div>
+                </div>
+                
+                <div class="control-group">
+                    <label>Bottom-Left Horizontal (%)</label>
+                    <input type="range" id="blH" min="0" max="100" value="62">
+                    <div class="value-display" id="blH-val">62%</div>
+                </div>
+                
+                <hr style="border: 1px solid rgba(255,255,255,0.2); margin: 20px 0;">
+                
+                <div class="control-group">
+                    <label>Top-Left Vertical (%)</label>
+                    <input type="range" id="tlV" min="0" max="100" value="31">
+                    <div class="value-display" id="tlV-val">31%</div>
+                </div>
+                
+                <div class="control-group">
+                    <label>Top-Right Vertical (%)</label>
+                    <input type="range" id="trV" min="0" max="100" value="71">
+                    <div class="value-display" id="trV-val">71%</div>
+                </div>
+                
+                <div class="control-group">
+                    <label>Bottom-Right Vertical (%)</label>
+                    <input type="range" id="brV" min="0" max="100" value="27">
+                    <div class="value-display" id="brV-val">27%</div>
+                </div>
+                
+                <div class="control-group">
+                    <label>Bottom-Left Vertical (%)</label>
+                    <input type="range" id="blV" min="0" max="100" value="59">
+                    <div class="value-display" id="blV-val">59%</div>
+                </div>
+                
+                <div class="preset-buttons">
+                    <button class="preset-btn" onclick="setPreset('circle')">🔵 Tròn</button>
+                    <button class="preset-btn" onclick="setPreset('ellipse')">🥚 Elip</button>
+                    <button class="preset-btn" onclick="setPreset('blob')">🫧 Blob</button>
+                    <button class="preset-btn" onclick="setPreset('leaf')">🍃 Lá</button>
+                    <button class="preset-btn" onclick="setPreset('original')">📋 Gốc</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="css-output" id="cssOutput"></div>
+    </div>
+
+    <script>
+        const shape = document.getElementById('demoShape');
+        const cssOutput = document.getElementById('cssOutput');
+        
+        const sliders = {
+            tlH: document.getElementById('tlH'),
+            trH: document.getElementById('trH'),
+            brH: document.getElementById('brH'),
+            blH: document.getElementById('blH'),
+            tlV: document.getElementById('tlV'),
+            trV: document.getElementById('trV'),
+            brV: document.getElementById('brV'),
+            blV: document.getElementById('blV')
+        };
+        
+        function updateShape() {
+            const values = {};
+            Object.keys(sliders).forEach(key => {
+                values[key] = sliders[key].value;
+                document.getElementById(key + '-val').textContent = values[key] + '%';
+            });
+            
+            const borderRadius = `${values.tlH}% ${values.trH}% ${values.brH}% ${values.blH}% / ${values.tlV}% ${values.trV}% ${values.brV}% ${values.blV}%`;
+            
+            shape.style.borderRadius = borderRadius;
+            
+        }
+        
+        Object.keys(sliders).forEach(key => {
+            sliders[key].addEventListener('input', updateShape);
+        });
+        
+        function setPreset(preset) {
+            const presets = {
+                circle: { tlH:50, trH:50, brH:50, blH:50, tlV:50, trV:50, brV:50, blV:50 },
+                ellipse: { tlH:100, trH:100, brH:100, blH:100, tlV:50, trV:50, brV:50, blV:50 },
+                blob: { tlH:30, trH:70, brH:40, blH:80, tlV:60, trV:30, brV:70, blV:40 },
+                leaf: { tlH:0, trH:100, brH:0, blH:100, tlV:0, trV:100, brV:100, blV:0 },
+                original: { tlH:0, trH:100, brH:38, blH:62, tlV:31, trV:71, brV:27, blV:59 }
+            };
+            
+            if (presets[preset]) {
+                Object.keys(presets[preset]).forEach(key => {
+                    sliders[key].value = presets[preset][key];
+                });
+                updateShape();
+            }
+        }
+        
+        updateShape();
+    </script>
+</body>
+</html>
